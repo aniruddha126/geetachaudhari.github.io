@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout | GeetaChaudhari</title>
+
+<style>
+
+body {
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background:#FFF5E1;
+}
+
+.menu {
+background:#D4AF37;
+text-align:center;
+padding:15px;
+}
+
+.menu a {
+margin:0 20px;
+text-decoration:none;
+color:black;
+font-weight:bold;
+}
+
+.checkout-container {
+max-width:700px;
+margin:40px auto;
+background:white;
+padding:25px;
+border-radius:10px;
+box-shadow:0 4px 8px rgba(0,0,0,0.1);
+}
+
+.checkout-container h2 {
+color:#800000;
+text-align:center;
+}
+
+.input-field {
+width:100%;
+padding:10px;
+margin:10px 0;
+border:1px solid #ccc;
+border-radius:6px;
+}
+
+.order-summary {
+margin-top:20px;
+padding:15px;
+background:#f8f8f8;
+border-radius:8px;
+}
+
+.place-order {
+background:#800000;
+color:white;
+padding:12px 20px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+width:100%;
+margin-top:20px;
+font-size:16px;
+}
+
+.footer {
+background:#800000;
+color:white;
+text-align:center;
+padding:15px;
+margin-top:40px;
+}
+
+</style>
+
+<script>
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+function loadOrder() {
+
+let orderList = document.getElementById("order-items");
+let total = 0;
+
+cart.forEach(item => {
+
+let div=document.createElement("div");
+
+div.innerHTML = item.name + " - ₹" + item.price;
+
+orderList.appendChild(div);
+
+total += item.price;
+
+});
+
+document.getElementById("total").innerText="Total: ₹"+total;
+
+}
+
+function placeOrder() {
+
+let name=document.getElementById("name").value;
+let phone=document.getElementById("phone").value;
+let address=document.getElementById("address").value;
+
+let message="New Order:%0A";
+
+cart.forEach(item=>{
+message += item.name + " - ₹" + item.price + "%0A";
+});
+
+message += "%0AName: " + name;
+message += "%0APhone: " + phone;
+message += "%0AAddress: " + address;
+
+let whatsappURL="https://wa.me/919420873535?text=" + message;
+
+window.open(whatsappURL,'_blank');
+
+}
+
+window.onload = loadOrder;
+
+</script>
+
+</head>
+
+<body>
+
+<div class="menu">
+<a href="index.html">Home</a>
+<a href="shop.html">Shop</a>
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+</div>
+
+<div class="checkout-container">
+
+<h2>Checkout</h2>
+
+<input type="text" id="name" class="input-field" placeholder="Full Name" required>
+
+<input type="tel" id="phone" class="input-field" placeholder="Phone Number" required>
+
+<textarea id="address" class="input-field" placeholder="Delivery Address" required></textarea>
+
+<div class="order-summary">
+<h3>Order Summary</h3>
+<div id="order-items"></div>
+<p id="total"></p>
+</div>
+
+<button class="place-order" onclick="placeOrder()">
+Place Order on WhatsApp
+</button>
+
+</div>
+
+<div class="footer">
+© 2026 GeetaChaudhari
+</div>
+
+</body>
+</html>
